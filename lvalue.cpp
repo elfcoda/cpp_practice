@@ -37,14 +37,20 @@ void f1(int&& x)
     cout << "rrrrr" << endl;
 }
 
-template <class T>
-std::enable_if_t<is_container_vector<T>::is_vector, void> h1(T&& v1)
+template <class T, class U>
+std::enable_if_t<is_container_vector<T>::is_vector &&
+                 is_container_vector<U>::is_vector &&
+                 std::is_same_v<typename std::decay<T>::type::value_type,
+                                typename std::decay<U>::type::value_type>,
+                 void>
+h1(T&& v1, U&& v2)
 {
 }
 
 int main()
 {
-    std::vector<int> v = {1};
-    h1(v);
+    std::vector<int> v1 = {1};
+    std::vector<int> v2 = {1};
+    h1(v1, std::vector<int>{1});
     return 0;
 }

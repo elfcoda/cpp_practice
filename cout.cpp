@@ -1,10 +1,8 @@
 #include <iostream>
-#include <set>
+#include "in.h"
 using namespace std;
 
 int main()
 {
-    std::set<int> p = {1, 2};
-    cout << *p.begin() << endl;
     return 0;
 }

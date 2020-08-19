@@ -40,7 +40,7 @@ void f1(int&& x)
 template <class T, class U>
 std::enable_if_t<is_container_vector<T>::is_vector &&
                  is_container_vector<U>::is_vector &&
-                 std::is_same_v<typename std::decay<T>::type::value_type,
+                 std::is_same_v<typename std::decay_t<T>::value_type,
                                 typename std::decay<U>::type::value_type>,
                  void>
 h1(T&& v1, U&& v2)

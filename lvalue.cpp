@@ -21,7 +21,11 @@ struct is_container_vector
     constexpr static bool is_vector = is_container_vector_helper<typename std::decay<T>::type>::is_vector;
 };
 
+enum AA{
+    AA_a = 1,
+};
 
+constexpr AA mm = AA_a;
 
 void f1(int& x)
 {

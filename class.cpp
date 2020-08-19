@@ -6,7 +6,7 @@ class cat
 {
     public:
         cat() { cout << "do cat" << endl; }
-        virtual void f() {cout << "f cat" << endl;}
+        virtual void f()  = 0;  // {cout << "f cat" << endl;}
 
         // 只要进去了函数里面，不再有基类指针，那就只会执行本类的函数，不用管是不是虚函数，不会有其他问题!!!
         virtual ~cat() {cout << "undo cat" << endl; doit();}
@@ -32,6 +32,7 @@ int main()
 {
     cat* m = new mcat();
     // m->f();
-    // delete m;
+    delete m;
+
     return 0;
 }

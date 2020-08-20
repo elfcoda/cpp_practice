@@ -21,13 +21,20 @@ struct is_container_vector
     constexpr static bool is_vector = is_container_vector_helper<typename std::decay<T>::type>::is_vector;
 };
 
+struct BB
+{
+    int mn;
+};
+
 class AA{
-    public:
+public:
     int AA_a;
-    AA(int i){ cout << "do" << endl; AA_a = 7;}
-    AA(const AA& aa) { cout << "con &" << endl; AA_a = 8; }
-    AA(const AA&& aa) { cout << "con &&" << endl;  AA_a = 9; }
-    ~AA(){ cout << "undo" << endl;}
+    BB* b;
+    AA(int i){ cout << "do" << endl; b = new BB();}
+    AA(const AA& aa) { cout << "con &" << endl; b = new BB(); }
+    AA(AA&& aa) { cout << "con &&" << endl;  b = aa.b; aa.b = nullptr;}
+    // 删除的时候要使用所有权，unique指针，只有&&能删。
+    ~AA(){ cout << "undo" << endl; if (b) {delete b; b = nullptr;} }
 };
 
 
@@ -37,9 +44,15 @@ vector<AA> f1()
 {
     vector<AA> v;
     // 直接在容器里面构造
-    v.emplace_back(7);
+    v.push_back(AA(7));
     cout << "gafa" << endl;
     return v;
+}
+
+AA f2()
+{
+    AA aa(7);
+    return aa;
 }
 
 void f1(int&& x)
@@ -64,6 +77,7 @@ int main()
     // prolong lifetime of a
     // 也可以直接延长容器的生命周期
     vector<AA> bb = f1();
+    // AA aa = f2();
     cout << "" << " aaa" << endl;
     // std::vector<int> v1 = {1};
     // std::vector<int> v2 = {1};

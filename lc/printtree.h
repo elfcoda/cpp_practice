@@ -21,16 +21,16 @@ bool vecHasVal(const vector<TreeNode*>& v) {
 
 
 const static int singleWidth = 5;
-int leftWidth(string s) {
-    assert(s.length() < singleWidth);
-    return singleWidth - s.length();
+int leftWidth(string s, int totalLen = singleWidth) {
+    assert(s.length() < totalLen);
+    return totalLen - s.length();
 }
 
 void fillNBlank(int n) {
     for (int i = 0; i < n; i++) cout << " ";
 }
 
-void print(TreeNode* root)
+void printtree(TreeNode* root)
 {
     if (root == nullptr) return;
     vector<TreeNode*> ve = {root};
@@ -59,14 +59,15 @@ void print(TreeNode* root)
     int layer = output.size();
     int width = pow(2, layer - 1) * singleWidth;
     for (int i = 0; i < output.size(); i++) {
-        int curWidth = pow(2, i) * 5;
-        fillNBlank((width - curWidth) / 2);
+        int curLen = pow(2, i);
+        int curSingle = width / curLen;
         for (int j = 0; j < output[i].size(); j++) {
-            cout << output[i][j];
-            fillNBlank(leftWidth(output[i][j]));
+            string s = output[i][j];
+            fillNBlank(leftWidth(s, curSingle) / 2);
+            cout << s;
+            fillNBlank(curSingle - leftWidth(s, curSingle) / 2 - s.length());
         }
         cout << endl;
     }
-    return 0;
 }
 
